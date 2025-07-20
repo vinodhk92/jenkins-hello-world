@@ -1,30 +1,44 @@
 pipeline {
-    agent any
-    tools {
-        maven "M398"
+  agent any
+  stages {
+    stage('Maven Version') {
+      steps {
+        sh 'echo Print Maven Version'
+        sh 'mvn -version'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        sh 'mvn clean package -DskipTests=true'
+        archiveArtifacts 'target/hello-demo-*.jar'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh 'mvn test'
+        junit(testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true)
+      }
     }
     
-    stages {
-        stage('Check Maven') {
-            steps {
-                sh "if ! command -v mvn;then echo 'Maven not found!';exit 1;fi"
-            }
-        }
-        stage('Build') {
-            steps {
-                sh "mvn clean package -DskipTests=true"
-            }
-        }
-        stage('Unit Test') {
-            steps{
-                sh "mvn test"
-                junit 'target/surefire-reports/TEST-*.xml'
-            }
-            post {    
-               success {
-                   archiveArtifacts 'target/*.jar'
-                 }
-            }
-        }
+    stage('Local Deployment') {
+      steps {
+        sh """ java -jar target/hello-demo-*.jar > /dev/null & """
+      }
     }
+    
+    stage('Integration Testing') {
+      steps {
+        sh 'sleep 5s'
+        sh 'curl -s http://localhost:6767/hello'
+      }
+    }
+
+
+  }
+  tools {
+    maven 'M398'
+  }
+
 }
