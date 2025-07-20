@@ -1,6 +1,7 @@
 pipeline {
     agent any
     tools {
+        // Install Maven tool
         maven "M398"
     }
     
