@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+    string (name: 'SLEEP_TIME', defaultValue: '20s', description: 'SLEEP CHOICE')
+  }
   stages {
     stage('Maven Version') {
       steps {
@@ -34,8 +37,6 @@ pipeline {
         sh "curl -s http://localhost:${APP_PORT}/hello"
       }
     }
-
-
   }
   tools {
     maven 'M398'
