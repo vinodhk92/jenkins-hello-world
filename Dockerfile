@@ -1,4 +1,4 @@
-FROM Ubuntu:latest
+FROM ubuntu:latest
 
 RUN apt-get update && apt install openjdk-21-jre -y
 
