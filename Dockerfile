@@ -2,10 +2,10 @@ FROM ubuntu:latest
 
 RUN apt-get update && apt install openjdk-21-jre -y
 
-COPY target/hello-demo-*.jar /srv/
+WORKDIR /root
 
-WORKDIR /
+COPY target/hello-demo-*.jar /root
 
-ENTRYPOINT ["java -jar /srv/hello-demo-*.jar > /dev/null"]
+ENTRYPOINT ["java -jar /root/hello-demo-*.jar"]
 
 CMD ["&&"]
