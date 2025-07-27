@@ -6,6 +6,6 @@ COPY target/hello-demo-*.jar /srv/
 
 WORKDIR /srv
 
-ENTRYPOINT ["java -jar target/hello-demo-*.jar > /dev/null"]
+ENTRYPOINT ["java -jar /srv/hello-demo-*.jar > /dev/null"]
 
 CMD ["&&"]
