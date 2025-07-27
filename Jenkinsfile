@@ -27,5 +27,11 @@ pipeline {
                  }
             }
         }
+        stage('Containarize image') {
+            steps{
+                sh 'docker build . -t my-app-image'
+                sh 'docker run -d -p 8085:80 --name my-app-container my-app-image'
+            }
+        }
     }
 }
