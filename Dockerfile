@@ -1,0 +1,11 @@
+FROM Ubuntu:latest
+
+RUN apt-get update && apt install openjdk-21-jre -y
+
+COPY target/hello-demo-*.jar /srv/
+
+WORKDIR /srv
+
+ENTRYPOINT ["java -jar target/hello-demo-*.jar > /dev/null"]
+
+CMD ["&&"]
